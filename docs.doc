@@ -1,0 +1,9 @@
+ sudo apt install openssl
+ ~ to run prisma
+
+ DATABASE_URL="mysql://root:root@localhost:3306/nest"
+ 
+ ~user: root
+ ~pass: root
+ ~mysql-db-port: 3306
+ ~database: nest
