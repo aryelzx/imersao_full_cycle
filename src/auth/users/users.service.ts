@@ -9,12 +9,11 @@ export class UsersService {
     constructor(private prismaService: PrismaService) {}
 
     create(data: CreateUserDto) {
+        console.log(data, '***')
         return this.prismaService.user.create({
             data: {
-                email: data.email,
-                name: data.name,
-                password: data.password,
-                roles: [UserRoles.PARTNER]
+                ...data,
+                roles: [UserRoles.PARTNER],
             },
         });
     }
