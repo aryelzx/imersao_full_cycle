@@ -1,6 +1,6 @@
 //dto - data transfer object
 
-export class CreateUserDto {
+export class CreatePartnerUserDto {
     name: string;
     email: string;
     password: string;
