@@ -3,30 +3,43 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePartnerUserDto } from './dto/create-partner-user.dto';
 import { CreateCommonUserDto } from './dto/create-common-user.dto';
 import { UserRoles } from './user-roles';
-import { generateHash } from './utils/generate-hash'
+import { generateHash } from './utils/generate-hash';
 
 @Injectable()
 export class UsersService {
+  constructor(private prismaService: PrismaService) {}
 
-    constructor(private prismaService: PrismaService) {}
+  createPartnerUser(data: CreatePartnerUserDto) {
+    return this.prismaService.user.create({
+      data: {
+        ...data,
+        password: generateHash(data.password),
+        roles: [UserRoles.PARTNER],
+      },
+    });
+  }
 
-    createPartnerUser(data: CreatePartnerUserDto) {
-        return this.prismaService.user.create({
-            data: {
-                ...data,
-                password: generateHash(data.password),
-                roles: [UserRoles.PARTNER],
-            },
-        });
-    }
+  createCommonUser(data: CreateCommonUserDto) {
+    return this.prismaService.user.create({
+      data: {
+        ...data,
+        password: generateHash(data.password),
+        roles: [UserRoles.USER],
+      },
+    });
+  }
 
-    createCommonUser(data: CreateCommonUserDto) {
-        return this.prismaService.user.create({
-            data: {
-                ...data,
-                password: generateHash(data.password),
-                roles: [UserRoles.USER],
-            },
-        });
-    }
+  findOne(idOrEmail: number | string) {
+    return this.prismaService.user.findFirst({
+      where: {
+        ...(typeof idOrEmail === 'number'
+          ? {
+              id: idOrEmail,
+            }
+          : {
+              email: idOrEmail,
+            }),
+      },
+    });
+  }
 }
