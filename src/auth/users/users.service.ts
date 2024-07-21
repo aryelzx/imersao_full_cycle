@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePartnerUserDto } from './dto/create-partner-user.dto';
 import { CreateCommonUserDto } from './dto/create-common-user.dto';
 import { UserRoles } from './user-roles';
-import * as bcrypt from 'bcrypt'
+import { generateHash } from './utils/generate-hash'
 
 @Injectable()
 export class UsersService {
@@ -14,7 +14,7 @@ export class UsersService {
         return this.prismaService.user.create({
             data: {
                 ...data,
-                password: this.generateHash(data.password),
+                password: generateHash(data.password),
                 roles: [UserRoles.PARTNER],
             },
         });
@@ -24,13 +24,9 @@ export class UsersService {
         return this.prismaService.user.create({
             data: {
                 ...data,
-                password: this.generateHash(data.password),
+                password: generateHash(data.password),
                 roles: [UserRoles.USER],
             },
         });
-    }
-
-    generateHash(pass: string) {
-        return bcrypt.hashSync(pass, 10);
     }
 }
