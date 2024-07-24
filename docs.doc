@@ -4,6 +4,6 @@
  DATABASE_URL="mysql://root:root@localhost:3306/nest"
  
  ~user: root
- ~pass: root
+ ~pass: 123456
  ~mysql-db-port: 3306
  ~database: nest
