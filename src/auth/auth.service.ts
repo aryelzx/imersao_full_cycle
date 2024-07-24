@@ -13,8 +13,7 @@ export class AuthService {
 
   async login(data: LoginDto) {
     const user = await this.userService.findOne(data.email);
-    
-    if (!user || bcrypt.compareSync(data.password, user.password)) {
+    if (!user || !bcrypt.compareSync(data.password, user.password)) {
       throw new Error('Invalid credentials');
     }
 
